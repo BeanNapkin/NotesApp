@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NoteFragment"
+    android:layout_margin="10dp"
+    android:orientation="vertical">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/textViewHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#373737"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        tools:text="Пирожки с клубникой на дрожжевом тесте" />
+
+    <TextView
+        android:id="@+id/textViewDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/hello_blank_fragment"
+        android:textColor="#807D7D"
+        android:textColorHint="#FFFFFF"
+        tools:text="01.01.2021" />
+
+    <TextView
+        android:id="@+id/textViewText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/hello_blank_fragment"
+        android:textColor="#807D7D"
+        android:textColorHint="#FFFFFF"
+        tools:text="Мягкие вкусные сдобные пирожочки с яркой и ароматной клубникой! Пробуй. Я очень люблю ягоды и фрукты, ведь это море витаминов и они всегда не только радуют глаз, но и очень вкусные! Выпечка с ягодами, а особенно с клубникой не исключение!!! Наверное, при виде таких пирожков никто не останется равнодушным и захочет попробовать хотя бы один-два пирожочка!" />
+
+</LinearLayout>

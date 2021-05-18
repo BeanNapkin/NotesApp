@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textViewHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/hello_blank_fragment"
+        android:textColor="#1B1A1A"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:textSize="18sp"
+        tools:text="Пирожки с клубникой на дрожжевом тесте" />
+
+    <TextView
+        android:id="@+id/textViewDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/hello_blank_fragment"
+        android:textColor="#807D7D"
+        android:textColorHint="#FFFFFF"
+        tools:text="Рецепт бабушки" />
+
+    <TextView
+        android:id="@+id/textViewDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="@string/hello_blank_fragment"
+        android:textColor="#807D7D"
+        tools:text="01.01.20" />
+
+</LinearLayout>
