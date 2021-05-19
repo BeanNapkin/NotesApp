@@ -7,16 +7,53 @@
     android:orientation="horizontal"
     tools:context=".MainActivity">
 
-    <FrameLayout
-        android:id="@+id/left"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/padding_for_layouts"
+        android:paddingRight="@dimen/padding_for_layouts"
+        android:background="@color/greyForBackground">
 
-    <FrameLayout
-        android:id="@+id/right"
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/allNotes"
+            android:textColor="@color/lightGrey"
+            android:textSize="@dimen/main_headers_text_size"
+            android:layout_marginTop="@dimen/margin_around_main_headers"/>
+
+        <FrameLayout
+            android:id="@+id/left"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1" />
+        android:layout_weight="2"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/padding_for_layouts">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_around_main_headers"
+            android:layout_marginBottom="@dimen/margin_around_main_headers"
+            android:text="@string/note"
+            android:textColor="@color/lightGrey"
+            android:textSize="@dimen/main_headers_text_size" />
+
+        <FrameLayout
+            android:id="@+id/right"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
 
 </LinearLayout>

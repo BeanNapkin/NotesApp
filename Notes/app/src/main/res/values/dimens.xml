@@ -5,6 +5,15 @@
     to square screens.
     -->
     <dimen name="box_inset_layout_padding">0dp</dimen>
+    <dimen name="note_header_text_size">18sp</dimen>
+    <dimen name="note_description_text_size">14sp</dimen>
+    <dimen name="note_date_text_size">14sp</dimen>
+    <dimen name="note_text_size">16sp</dimen>
+    <dimen name="padding_for_layouts">15dp</dimen>
+    <dimen name="main_headers_text_size">20sp</dimen>
+    <dimen name="margin_in_notelist_before_date">5dp</dimen>
+    <dimen name="margin_between_notes_in_note_list">10dp</dimen>
+    <dimen name="margin_around_main_headers">10dp</dimen>
 
     <!--
     This padding applies to both square and round screens. The total padding between the buttons

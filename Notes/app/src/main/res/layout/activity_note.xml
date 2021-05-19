@@ -6,5 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".NoteActivity"
     android:orientation="vertical"
-    android:id="@+id/main">
+    android:id="@+id/main"
+    android:padding="@dimen/padding_for_layouts">
 </FrameLayout>

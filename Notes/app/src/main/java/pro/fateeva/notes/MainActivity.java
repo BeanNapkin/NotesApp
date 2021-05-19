@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     List<Note> notes = new ArrayList<Note>();
     Note selectedNote = null;
     private final static String CURRENT_NOTE = "note";
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
