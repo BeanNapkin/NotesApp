@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link NoteFragment#newInstance} factory method to
+ * Use the {@link NoteFragment#createFragment} factory method to
  * create an instance of this fragment.
  */
 public class NoteFragment extends Fragment {
@@ -19,6 +19,7 @@ public class NoteFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_NOTE = "note";
+    public static final String TAG = "noteFragment";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -28,12 +29,16 @@ public class NoteFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static NoteFragment newInstance(Note note) {
+    public static NoteFragment createFragment(Note note) {
         NoteFragment fragment = new NoteFragment();
+        fragment.changeNoteInNoteFragment(note);
+        return fragment;
+    }
+
+    public void changeNoteInNoteFragment(Note note) {
         Bundle args = new Bundle();
         args.putSerializable(ARG_NOTE, note);
-        fragment.setArguments(args);
-        return fragment;
+        setArguments(args);
     }
 
     @Override

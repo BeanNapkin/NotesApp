@@ -1,8 +1,10 @@
 package pro.fateeva.notes;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -10,17 +12,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.io.Serializable;
-
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link NotesFragment#newInstance} factory method to
+ * Use the {@link NotesFragment#createFragment} factory method to
  * create an instance of this fragment.
  */
-public class NotesFragment extends Fragment implements Serializable {
+public class NotesFragment extends Fragment {
+
+    public static final String TAG = "notesFragment";
+
+
+    Note noteToSave;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_NOTES = "param1";
     private boolean isInitialized;
 
@@ -28,11 +34,15 @@ public class NotesFragment extends Fragment implements Serializable {
         // Required empty public constructor
     }
 
-    public static NotesFragment newInstance(Notes notes) {
+    /**
+     Создаётся фрагмент списка заметок, создаётмя бандл(конверт). В бандл кладём список заметок
+     и этот бандл передаём в аргументы фрагмента.
+     */
+    public static NotesFragment createFragment(Notes notes) {
         NotesFragment fragment = new NotesFragment();
-        Bundle args = new Bundle();
-        args.putSerializable(ARG_NOTES, notes);
-        fragment.setArguments(args);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(ARG_NOTES, notes);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -74,10 +84,18 @@ public class NotesFragment extends Fragment implements Serializable {
         }
     }
 
-    private void noteClicked(Note note) {
-        Intent intent = new Intent(getContext(), NoteActivity.class);
+    public void noteClicked(Note note) {
+        Class<?> activity;
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            activity = NoteActivity.class;
+        } else {
+            activity = MainActivity.class;
+        }
+        Intent intent = new Intent(getContext(), activity);
         intent.putExtra("NOTE", note);
         startActivity(intent);
     }
+
+
 }
 
