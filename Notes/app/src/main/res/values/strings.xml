@@ -10,4 +10,9 @@
     <string name="hello_world">Hello Square World!</string>
     <string name="note">Заметка:</string>
     <string name="allNotes">Все заметки:</string>
+    <string name="open" />
+    <string name="navigation_drawer_open">open</string>
+    <string name="navigation_drawer_close">close</string>
+    <string name="header">Заголовок</string>
+    <string name="description">Описание</string>
 </resources>
