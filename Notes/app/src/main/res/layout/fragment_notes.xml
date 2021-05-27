@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/greyForBackground"
     android:orientation="vertical"
-    tools:context=".NotesFragment">
-</LinearLayout>
+    android:id="@+id/recyclerView"
+    android:background="@color/white"
+    tools:context=".NotesFragment"
+    tools:itemCount="10"
+    tools:listitem="@layout/note_item"
+    android:layout_marginTop="10dp"/>

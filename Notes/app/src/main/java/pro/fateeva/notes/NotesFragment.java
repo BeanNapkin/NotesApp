@@ -2,15 +2,20 @@ package pro.fateeva.notes;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.LightingColorFilter;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,8 +25,6 @@ import android.widget.TextView;
 public class NotesFragment extends Fragment {
 
     public static final String TAG = "notesFragment";
-
-
     Note noteToSave;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -35,8 +38,8 @@ public class NotesFragment extends Fragment {
     }
 
     /**
-     Создаётся фрагмент списка заметок, создаётмя бандл(конверт). В бандл кладём список заметок
-     и этот бандл передаём в аргументы фрагмента.
+     * Создаётся фрагмент списка заметок, создаётмя бандл(конверт). В бандл кладём список заметок
+     * и этот бандл передаём в аргументы фрагмента.
      */
     public static NotesFragment createFragment(Notes notes) {
         NotesFragment fragment = new NotesFragment();
@@ -60,42 +63,20 @@ public class NotesFragment extends Fragment {
         if (!isInitialized) {
             final Notes notes = (Notes) getArguments().getSerializable(ARG_NOTES);
 
-            for (int i = 0; i < notes.notes.size(); i++) {
-                ViewGroup noteLayout = (ViewGroup) getLayoutInflater().inflate(R.layout.note, (ViewGroup) getView(), false);
-                TextView header = noteLayout.findViewById(R.id.textViewHeader);
-                TextView description = noteLayout.findViewById(R.id.textViewDescription);
-                TextView date = noteLayout.findViewById(R.id.textViewDate);
+            RecyclerView recyclerView = getView().findViewById(R.id.recyclerView);
+            recyclerView.setHasFixedSize(true);
 
-                header.setText(notes.notes.get(i).getHeader());
-                description.setText(notes.notes.get(i).getDescription());
-                date.setText(notes.notes.get(i).getDate().toString());
+            LinearLayoutManager manager = new LinearLayoutManager(getView().getContext());
+            recyclerView.setLayoutManager(manager);
 
-                ((ViewGroup) getView()).addView(noteLayout);
+            DividerItemDecoration itemDecoration = new DividerItemDecoration(getContext(),  LinearLayoutManager.VERTICAL);
+            itemDecoration.setDrawable(getResources().getDrawable(R.drawable.separator, null));
+            recyclerView.addItemDecoration(itemDecoration);
 
-                final int index = i;
-                noteLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        noteClicked(notes.notes.get(index));
-                    }
-                });
-            }
-            isInitialized = true;
+            recyclerView.setAdapter(new MyAdapter(notes.getNotes()));
         }
+        isInitialized = true;
     }
-
-    public void noteClicked(Note note) {
-        Class<?> activity;
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            activity = NoteActivity.class;
-        } else {
-            activity = MainActivity.class;
-        }
-        Intent intent = new Intent(getContext(), activity);
-        intent.putExtra("NOTE", note);
-        startActivity(intent);
-    }
-
-
 }
+
 

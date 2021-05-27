@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     private List<Note> notes = new ArrayList<Note>();
     private Note selectedNote = null;
-    private final static String CURRENT_NOTE = "note";
+    private final static String CURRENT_NOTE = "note_item";
     private ActionBarDrawerToggle toggle;
 
     @Override
@@ -42,6 +43,12 @@ public class MainActivity extends AppCompatActivity {
         notes.add(note);
 
         note = new Note(2, "План на выходные", "Дела", new Date(2021, 3, 15), "Уборка, спортзал, помыть собаку, купить продукты.");
+        notes.add(note);
+
+        note = new Note(3, "Ещё заметка", "Заметка", new Date(2021, 12, 15), "Уборка, спортзал, помыть собаку, купить продукты.");
+        notes.add(note);
+
+        note = new Note(4, "План на выходные", "Дела", new Date(2021, 3, 15), "Уборка, спортзал, помыть собаку, купить продукты.");
         notes.add(note);
 
         // При первом запуске тут будет null
@@ -60,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            if (savedInstanceState != null){
+            if (savedInstanceState != null) {
                 selectedNote = (Note) savedInstanceState.getSerializable(CURRENT_NOTE);
                 if (selectedNote != null) {
                     Intent intent = new Intent(this, NoteActivity.class);
@@ -92,12 +99,12 @@ public class MainActivity extends AppCompatActivity {
         initView(selectedNote);
     }
 
-    private void setNoteFromIntent(Intent intent){
+    private void setNoteFromIntent(Intent intent) {
         Note note = (Note) intent.getSerializableExtra("NOTE");
         selectedNote = note;
     }
 
-    private void initView(Note selectedNote) {
+    private void initView(final Note selectedNote) {
         Toolbar toolbar = initToolbar();
         initDrawer(toolbar);
         initToolbar();
@@ -112,7 +119,15 @@ public class MainActivity extends AppCompatActivity {
                 fragmentTransaction.attach(noteFragment);
             } else {
                 noteFragment = NoteFragment.createFragment(selectedNote);
-                fragmentTransaction.add(R.id.right, noteFragment, NoteFragment.TAG);
+                fragmentTransaction.replace(R.id.right, noteFragment, NoteFragment.TAG);
+
+                FloatingActionButton fab = findViewById(R.id.fab);
+                fab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        openEditForm(selectedNote);
+                    }
+                });
             }
             fragmentTransaction.commit();
         }
@@ -124,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
         outState.putSerializable(CURRENT_NOTE, selectedNote);
     }
 
-    private Toolbar initToolbar(){
+    private Toolbar initToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
@@ -144,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
 
-                switch (id){
+                switch (id) {
                     case R.id.action_addNew:
                         clickOnAddNewNote();
                         return true;
@@ -157,7 +172,6 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.action_about:
                         // функция
                         return true;
-
                 }
                 return false;
             }
@@ -168,11 +182,11 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
-        if (toggle.onOptionsItemSelected(item)){
+        if (toggle.onOptionsItemSelected(item)) {
             return true;
         }
 
-        switch (id){
+        switch (id) {
             case R.id.action_addNew:
                 clickOnAddNewNote();
                 return true;
@@ -185,7 +199,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_about:
                 // функция
                 return true;
-
         }
         return super.onOptionsItemSelected(item);
     }
@@ -193,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        MenuItem search = menu.findItem(R.id. action_search);
+        MenuItem search = menu.findItem(R.id.action_search);
         SearchView searchText = (SearchView) search.getActionView();
         searchText.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -211,8 +224,23 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    public void clickOnAddNewNote(){
-        Intent intent = new Intent(this, AddNewNoteActivity.class);
-        startActivity(intent);
+    public void clickOnAddNewNote() {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            Intent intent = new Intent(this, NoteActivity.class);
+            intent.putExtra("NOTE", new Note());
+            intent.putExtra("CREATE_NEW", true);
+            startActivity(intent);
+        } else {
+            openEditForm(new Note());
+        }
+    }
+
+    private void openEditForm(Note note) {
+        EditFormFragment editNoteFragment = EditFormFragment.createFragment(note);
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+
+        fragmentTransaction.replace(R.id.right, editNoteFragment);
+        fragmentTransaction.commit();
     }
 }

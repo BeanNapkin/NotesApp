@@ -15,15 +15,8 @@ import android.widget.TextView;
  * create an instance of this fragment.
  */
 public class NoteFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_NOTE = "note";
+    private static final String ARG_NOTE = "note_item";
     public static final String TAG = "noteFragment";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     public NoteFragment() {
         // Required empty public constructor
