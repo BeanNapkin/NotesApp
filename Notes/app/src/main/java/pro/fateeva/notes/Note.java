@@ -18,6 +18,14 @@ public class Note implements Serializable {
         this.id = id;
     }
 
+    public Note() {
+        this.header = "";
+        this.description = "";
+        this.date = new Date();
+        this.text = "";
+        this.id = 0;
+    }
+
     public String getHeader() {
         return header;
     }

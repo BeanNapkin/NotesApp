@@ -5,9 +5,14 @@ import java.util.List;
 
 public class Notes implements Serializable {
 
-    List<Note> notes;
+    private List<Note> notes;
 
     public Notes(List<Note> notes) {
         this.notes = notes;
     }
+
+    public List<Note> getNotes() {
+        return notes;
+    }
 }
+
