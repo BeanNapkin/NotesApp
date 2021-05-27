@@ -45,7 +45,7 @@ public class NoteActivity extends AppCompatActivity {
             NoteFragment noteFragment = NoteFragment.createFragment(note);
 
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.add(R.id.main, noteFragment);
+            fragmentTransaction.replace(R.id.main, noteFragment);
             fragmentTransaction.commit();
 
             FloatingActionButton fab = findViewById(R.id.fab);
