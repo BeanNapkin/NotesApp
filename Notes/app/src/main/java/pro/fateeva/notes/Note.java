@@ -45,4 +45,24 @@ public class Note implements Serializable {
     public int getId() {
         return id;
     }
+
+    public void setHeader(String header) {
+        this.header = header;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 }

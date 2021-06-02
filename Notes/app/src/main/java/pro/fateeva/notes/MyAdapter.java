@@ -6,8 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -15,9 +18,21 @@ import java.util.List;
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     private List<Note> notes;
+    private final Fragment fragment;
 
-    public MyAdapter(List<Note> notes) {
+    private Note longClickedNote;
+
+    public MyAdapter(List<Note> notes, Fragment fragment) {
         this.notes = notes;
+        this.fragment = fragment;
+    }
+
+    public void setNotes(List<Note> notes) {
+        this.notes = notes;
+    }
+
+    public Note getLongClickedNote() {
+        return longClickedNote;
     }
 
     @NonNull
@@ -37,7 +52,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         return notes.size();
     }
 
-    static class MyViewHolder extends RecyclerView.ViewHolder {
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView header;
         private final TextView description;
@@ -49,6 +65,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             header = itemView.findViewById(R.id.textViewHeader);
             description = itemView.findViewById(R.id.textViewDescription);
             date = itemView.findViewById(R.id.textViewDate);
+
+            registerContextMenu(itemView);
+        }
+
+        private void registerContextMenu(@NonNull View itemView) {
+            if (fragment != null) {
+                fragment.registerForContextMenu(itemView);
+            }
         }
 
         void bind(final Note note) {
@@ -68,6 +92,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                     Intent intent = new Intent(v.getContext(), activity);
                     intent.putExtra("NOTE", note);
                     v.getContext().startActivity(intent);
+                }
+            });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    longClickedNote = note;
+                    return false;
                 }
             });
         }
