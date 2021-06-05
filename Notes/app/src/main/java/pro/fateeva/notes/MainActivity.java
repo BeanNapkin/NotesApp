@@ -26,7 +26,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private List<Note> notes = new ArrayList<Note>();
+    private NotesSource notes = new NotesMemorySourceImpl();
+
     private Note selectedNote = null;
     private final static String CURRENT_NOTE = "note_item";
     private ActionBarDrawerToggle toggle;
@@ -38,21 +39,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Note note = new Note(1, "Пирожки с клубникой", "Рецепт от бабушки", new Date(), "Мягкие вкусные сдобные пирожочки с яркой и ароматной клубникой! Пробуй. Я очень люблю ягоды и фрукты, ведь это море витаминов и они всегда не только радуют глаз, но и очень вкусные! Выпечка с ягодами, а особенно с клубникой не исключение!!! Наверное, при виде таких пирожков никто не останется равнодушным и захочет попробовать хотя бы один-два пирожочка!");
-        notes.add(note);
-
-        note = new Note(2, "Поезд", "Планы на мой отпуск", new Date(2021, 1, 10), "Выезжаем в 15.00 с Курского вокзала. Возьми паспорт.");
-        notes.add(note);
-
-        note = new Note(3, "План на выходные", "Дела", new Date(2021, 3, 15), "Уборка, спортзал, помыть собаку, купить продукты.");
-        notes.add(note);
-
-        note = new Note(4, "Ещё заметка", "Заметка", new Date(2021, 12, 15), "Уборка, спортзал, помыть собаку, купить продукты.");
-        notes.add(note);
-
-        note = new Note(5, "План на выходные", "Дела", new Date(2021, 3, 15), "Уборка, спортзал, помыть собаку, купить продукты.");
-        notes.add(note);
 
         // При первом запуске тут будет null
         notesFragment = (NotesFragment) getSupportFragmentManager().findFragmentByTag(NotesFragment.TAG);
@@ -66,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
             fragmentTransaction.commitNow(); // Моментальная операция
             fragmentTransaction = getSupportFragmentManager().beginTransaction();
         } else {
-            notesFragment = NotesFragment.createFragment(new Notes(notes));
+            notesFragment = NotesFragment.createFragment(notes);
         }
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -124,28 +110,27 @@ public class MainActivity extends AppCompatActivity {
 
     private void deleteNote(Note noteToDelete) {
         for (int i = 0; i < notes.size(); i++) {
-            if (notes.get(i).getId() == noteToDelete.getId()) {
-                notes.remove(i);
-                notesFragment.changeNotes(new Notes(notes));
+            if (notes.getNote(i).getId().equals(noteToDelete.getId())) {
+                notes.deleteNote(i);
+                notesFragment.changeNotes(notes);
                 break;
             }
         }
     }
 
     private void updateNotesFragment(Note noteToUpdate) {
-        if (noteToUpdate.getId() == 0) {
-            noteToUpdate.setId(notes.size() + 1);
+        if ("".equals(noteToUpdate.getId())) {
             noteToUpdate.setDate(new Date());
-            notes.add(noteToUpdate);
+            notes.addNote(noteToUpdate);
             notesFragment.recyclerView.scrollToPosition(notes.size() - 1);
         } else {
             for (int i = 0; i < notes.size(); i++) {
-                if (notes.get(i).getId() == noteToUpdate.getId()) {
-                    notes.set(i, noteToUpdate);
+                if (notes.getNote(i).getId().equals(noteToUpdate.getId())) {
+                    notes.updateNote(i, noteToUpdate);
                 }
             }
         }
-        notesFragment.changeNotes(new Notes(notes));
+        notesFragment.changeNotes(notes);
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             fab.show();

@@ -4,13 +4,13 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Note implements Serializable {
-    private int id = 0;
+    private String id = "";
     private String header = "";
     private String description = "";
     private Date date;
     private String text = "";
 
-    public Note(int id, String header, String description, Date date, String text) {
+    public Note(String  id, String header, String description, Date date, String text) {
         this.header = header;
         this.description = description;
         this.date = date;
@@ -23,7 +23,6 @@ public class Note implements Serializable {
         this.description = "";
         this.date = new Date();
         this.text = "";
-        this.id = 0;
     }
 
     public String getHeader() {
@@ -42,7 +41,7 @@ public class Note implements Serializable {
         return text;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -58,7 +57,7 @@ public class Note implements Serializable {
         this.text = text;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

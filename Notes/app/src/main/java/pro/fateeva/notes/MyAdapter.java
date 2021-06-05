@@ -17,17 +17,17 @@ import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
-    private List<Note> notes;
+    private NotesSource notes;
     private final Fragment fragment;
 
     private Note longClickedNote;
 
-    public MyAdapter(List<Note> notes, Fragment fragment) {
+    public MyAdapter(NotesSource notes, Fragment fragment) {
         this.notes = notes;
         this.fragment = fragment;
     }
 
-    public void setNotes(List<Note> notes) {
+    public void setNotes(NotesSource notes) {
         this.notes = notes;
     }
 
@@ -44,7 +44,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.bind(notes.get(position));
+        holder.bind(notes.getNote(position));
     }
 
     @Override

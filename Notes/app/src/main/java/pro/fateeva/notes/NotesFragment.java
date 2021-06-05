@@ -1,14 +1,11 @@
 package pro.fateeva.notes;
 
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.graphics.LightingColorFilter;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,11 +16,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -51,7 +43,7 @@ public class NotesFragment extends Fragment {
      * Создаётся фрагмент списка заметок, создаётмя бандл(конверт). В бандл кладём список заметок
      * и этот бандл передаём в аргументы фрагмента.
      */
-    public static NotesFragment createFragment(Notes notes) {
+    public static NotesFragment createFragment(NotesSource notes) {
         NotesFragment fragment = new NotesFragment();
         Bundle args = new Bundle();
         args.putSerializable(ARG_NOTES, notes);
@@ -71,7 +63,7 @@ public class NotesFragment extends Fragment {
         super.onStart();
 
         if (!isInitialized) {
-            final Notes notes = (Notes) getArguments().getSerializable(ARG_NOTES);
+            final NotesSource notes = (NotesSource) getArguments().getSerializable(ARG_NOTES);
 
             recyclerView = getView().findViewById(R.id.recyclerView);
             recyclerView.setHasFixedSize(true);
@@ -83,7 +75,7 @@ public class NotesFragment extends Fragment {
             itemDecoration.setDrawable(getResources().getDrawable(R.drawable.separator, null));
             recyclerView.addItemDecoration(itemDecoration);
 
-            myAdapter = new MyAdapter(notes.getNotes(), this);
+            myAdapter = new MyAdapter(notes, this);
 
             recyclerView.setAdapter(myAdapter);
         }
@@ -118,8 +110,8 @@ public class NotesFragment extends Fragment {
     }
 
 
-    public void changeNotes(Notes notes) {
-        myAdapter.setNotes(notes.getNotes());
+    public void changeNotes(NotesSource notes) {
+        myAdapter.setNotes(notes);
         myAdapter.notifyDataSetChanged();
     }
 }
