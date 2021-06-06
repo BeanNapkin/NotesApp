@@ -1,59 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
     tools:context=".MainActivity">
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/padding_for_layouts"
-        android:paddingRight="@dimen/padding_for_layouts"
-        android:background="@color/greyForBackground">
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/allNotes"
-            android:textColor="@color/lightGrey"
-            android:textSize="@dimen/main_headers_text_size"
-            android:layout_marginTop="@dimen/margin_around_main_headers"/>
+        <include layout="@layout/toolbar" />
 
-        <FrameLayout
-            android:id="@+id/left"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/greyForBackground"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/padding_for_layouts"
+                android:paddingRight="@dimen/padding_for_layouts">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_around_main_headers"
+                    android:text="@string/allNotes"
+                    android:textColor="@color/lightGrey"
+                    android:textSize="@dimen/main_headers_text_size" />
+
+                <FrameLayout
+                    android:id="@+id/left"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/padding_for_layouts">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_around_main_headers"
+                    android:layout_marginBottom="@dimen/margin_around_main_headers"
+                    android:text="@string/note"
+                    android:textColor="@color/lightGrey"
+                    android:textSize="@dimen/main_headers_text_size" />
+
+                <FrameLayout
+                    android:id="@+id/right"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="0dp"
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_weight="2"
-        android:orientation="vertical"
-        android:paddingHorizontal="@dimen/padding_for_layouts">
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_main"
+        app:menu="@menu/menu_drawer" />
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_around_main_headers"
-            android:layout_marginBottom="@dimen/margin_around_main_headers"
-            android:text="@string/note"
-            android:textColor="@color/lightGrey"
-            android:textSize="@dimen/main_headers_text_size" />
-
-        <FrameLayout
-            android:id="@+id/right"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </LinearLayout>
-
-</LinearLayout>
+</androidx.drawerlayout.widget.DrawerLayout>

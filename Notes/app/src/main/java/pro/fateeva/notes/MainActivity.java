@@ -1,12 +1,23 @@
 package pro.fateeva.notes;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
+
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,9 +25,10 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    List<Note> notes = new ArrayList<Note>();
-    Note selectedNote = null;
+    private List<Note> notes = new ArrayList<Note>();
+    private Note selectedNote = null;
     private final static String CURRENT_NOTE = "note";
+    private ActionBarDrawerToggle toggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +62,11 @@ public class MainActivity extends AppCompatActivity {
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             if (savedInstanceState != null){
                 selectedNote = (Note) savedInstanceState.getSerializable(CURRENT_NOTE);
-                Intent intent = new Intent(this, NoteActivity.class);
-                intent.putExtra("NOTE", selectedNote);
-                startActivity(intent);
+                if (selectedNote != null) {
+                    Intent intent = new Intent(this, NoteActivity.class);
+                    intent.putExtra("NOTE", selectedNote);
+                    startActivity(intent);
+                }
             }
             // Куда добавить, что добавить и как его назвать, чтобы потом достать через findFragmentByTag
             fragmentTransaction.add(R.id.main, notesFragment, NotesFragment.TAG);
@@ -84,6 +98,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView(Note selectedNote) {
+        Toolbar toolbar = initToolbar();
+        initDrawer(toolbar);
+        initToolbar();
+
         NoteFragment noteFragment = (NoteFragment) getSupportFragmentManager().findFragmentByTag(NoteFragment.TAG);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
@@ -104,5 +122,97 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putSerializable(CURRENT_NOTE, selectedNote);
+    }
+
+    private Toolbar initToolbar(){
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitleTextColor(Color.WHITE);
+        setSupportActionBar(toolbar);
+        return toolbar;
+    }
+
+    private void initDrawer(Toolbar toolbar) {
+        final DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+
+                switch (id){
+                    case R.id.action_addNew:
+                        clickOnAddNewNote();
+                        return true;
+                    case R.id.action_search:
+                        // функция
+                        return true;
+                    case R.id.action_settings:
+                        // функция
+                        return true;
+                    case R.id.action_about:
+                        // функция
+                        return true;
+
+                }
+                return false;
+            }
+        });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (toggle.onOptionsItemSelected(item)){
+            return true;
+        }
+
+        switch (id){
+            case R.id.action_addNew:
+                clickOnAddNewNote();
+                return true;
+            case R.id.action_search:
+                // функция
+                return true;
+            case R.id.action_settings:
+                // функция
+                return true;
+            case R.id.action_about:
+                // функция
+                return true;
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem search = menu.findItem(R.id. action_search);
+        SearchView searchText = (SearchView) search.getActionView();
+        searchText.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Toast.makeText(MainActivity.this, query, Toast.LENGTH_SHORT).show();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return true;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    public void clickOnAddNewNote(){
+        Intent intent = new Intent(this, AddNewNoteActivity.class);
+        startActivity(intent);
     }
 }

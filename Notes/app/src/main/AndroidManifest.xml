@@ -22,6 +22,9 @@
         <activity
             android:name=".NoteActivity"
             android:screenOrientation="fullSensor" />
+        <activity
+            android:name=".AddNewNoteActivity"
+            android:screenOrientation="fullSensor" />
     </application>
 
 </manifest>
