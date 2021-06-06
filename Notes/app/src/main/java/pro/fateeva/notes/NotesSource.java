@@ -3,9 +3,12 @@ package pro.fateeva.notes;
 import java.io.Serializable;
 
 public interface NotesSource extends Serializable {
+
+    NotesSource init(NoteSourceResponse noteSourceResponse);
+
     int size();
 
-    int addNote(Note note);
+    void addNote(Note note);
 
     void updateNote(int position, Note note);
 

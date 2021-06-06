@@ -109,7 +109,6 @@ public class NotesFragment extends Fragment {
         return false;
     }
 
-
     public void changeNotes(NotesSource notes) {
         myAdapter.setNotes(notes);
         myAdapter.notifyDataSetChanged();

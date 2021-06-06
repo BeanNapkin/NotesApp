@@ -26,14 +26,18 @@ public class NotesMemorySourceImpl implements NotesSource{
     }
 
     @Override
+    public NotesSource init(NoteSourceResponse noteSourceResponse) {
+        return null;
+    }
+
+    @Override
     public int size() {
         return notes.size();
     }
 
-    public int addNote(Note note){
+    public void addNote(Note note){
         notes.add(note);
         note.setId(String.valueOf(notes.size() + 1));
-        return notes.indexOf(note);
     }
 
     public void updateNote(int position, Note note){
