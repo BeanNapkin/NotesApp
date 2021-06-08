@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "175042986105",
+    "project_id": "beannapkinnotes",
+    "storage_bucket": "beannapkinnotes.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:175042986105:android:ab6df4c29355f9298e54a8",
+        "android_client_info": {
+          "package_name": "pro.fateeva.notes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "175042986105-lo5rv76h9mpba96doi0h56kmqn51qpd4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBf0IJoWThuXvc3rjXyUEWA1y8Ur8nalNw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "175042986105-lo5rv76h9mpba96doi0h56kmqn51qpd4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

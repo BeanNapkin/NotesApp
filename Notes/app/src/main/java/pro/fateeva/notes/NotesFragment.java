@@ -1,14 +1,11 @@
 package pro.fateeva.notes;
 
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.graphics.LightingColorFilter;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,10 +16,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.TextView;
+import android.widget.ProgressBar;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -35,6 +31,7 @@ public class NotesFragment extends Fragment {
     public static final String TAG = "notesFragment";
     public RecyclerView recyclerView;
     private MyAdapter myAdapter;
+    private boolean isProgressBarShown;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -51,10 +48,10 @@ public class NotesFragment extends Fragment {
      * Создаётся фрагмент списка заметок, создаётмя бандл(конверт). В бандл кладём список заметок
      * и этот бандл передаём в аргументы фрагмента.
      */
-    public static NotesFragment createFragment(Notes notes) {
+    public static NotesFragment createFragment(NotesSource notes) {
         NotesFragment fragment = new NotesFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_NOTES, notes);
+        args.putSerializable(ARG_NOTES, new SerializableNotes(notes.getAllNotes()));
         fragment.setArguments(args);
         return fragment;
     }
@@ -71,7 +68,7 @@ public class NotesFragment extends Fragment {
         super.onStart();
 
         if (!isInitialized) {
-            final Notes notes = (Notes) getArguments().getSerializable(ARG_NOTES);
+            final SerializableNotes notes = (SerializableNotes) getArguments().getSerializable(ARG_NOTES);
 
             recyclerView = getView().findViewById(R.id.recyclerView);
             recyclerView.setHasFixedSize(true);
@@ -88,6 +85,7 @@ public class NotesFragment extends Fragment {
             recyclerView.setAdapter(myAdapter);
         }
         isInitialized = true;
+        updateProgressBar();
     }
 
     @Override
@@ -117,9 +115,26 @@ public class NotesFragment extends Fragment {
         return false;
     }
 
+    public void showProgressBar(boolean isShowing) {
+        isProgressBarShown = isShowing;
 
-    public void changeNotes(Notes notes) {
-        myAdapter.setNotes(notes.getNotes());
+        if (getView() != null) {
+            updateProgressBar();
+        }
+    }
+
+    private void updateProgressBar() {
+        ProgressBar progressBar = getView().findViewById(R.id.progressBar);
+
+        if (isProgressBarShown) {
+            progressBar.setVisibility(View.VISIBLE);
+        } else {
+            progressBar.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    public void changeNotes(NotesSource notes) {
+        myAdapter.setNotes(notes.getAllNotes());
         myAdapter.notifyDataSetChanged();
     }
 }
