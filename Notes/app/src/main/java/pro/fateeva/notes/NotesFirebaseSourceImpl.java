@@ -65,6 +65,7 @@ public class NotesFirebaseSourceImpl implements NotesSource{
 
     @Override
     public void addNote(final Note note) {
+        noteData.add(note);
         collection.add(NoteDataMapping.toDocumnet(note)).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {

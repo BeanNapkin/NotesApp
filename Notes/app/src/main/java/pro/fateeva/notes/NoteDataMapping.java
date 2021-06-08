@@ -1,6 +1,7 @@
 package pro.fateeva.notes;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,7 +18,7 @@ public class NoteDataMapping {
         String header = (String) doc.get(Fields.HEADER);
         String description = (String) doc.get(Fields.DESCRIPTION);
         String text = (String) doc.get(Fields.TEXT);
-        Timestamp date = (Timestamp) doc.get(Fields.DATE);
+        Date date = (Date) doc.get(Fields.DATE);
 
         Note data = new Note(id, header, description, date, text);
 

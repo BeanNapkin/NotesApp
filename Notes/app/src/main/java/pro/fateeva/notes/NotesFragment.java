@@ -31,6 +31,7 @@ public class NotesFragment extends Fragment {
     public static final String TAG = "notesFragment";
     public RecyclerView recyclerView;
     private MyAdapter myAdapter;
+    private boolean isProgressBarShown;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -84,6 +85,7 @@ public class NotesFragment extends Fragment {
             recyclerView.setAdapter(myAdapter);
         }
         isInitialized = true;
+        updateProgressBar();
     }
 
     @Override
@@ -113,10 +115,18 @@ public class NotesFragment extends Fragment {
         return false;
     }
 
-    public void showProgressBar(boolean isShowing){
+    public void showProgressBar(boolean isShowing) {
+        isProgressBarShown = isShowing;
+
+        if (getView() != null) {
+            updateProgressBar();
+        }
+    }
+
+    private void updateProgressBar() {
         ProgressBar progressBar = getView().findViewById(R.id.progressBar);
 
-        if (isShowing){
+        if (isProgressBarShown) {
             progressBar.setVisibility(View.VISIBLE);
         } else {
             progressBar.setVisibility(View.INVISIBLE);

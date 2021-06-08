@@ -79,7 +79,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         notesFragment.showProgressBar(true);
+        downloadNotes();
         initView(selectedNote);
+    }
+
+    private void downloadNotes(){
+        notes.downloadNotesFromServer((notesSource -> {
+            notesFragment.changeNotes(notesSource);
+            notesFragment.showProgressBar(false);
+        }));
     }
 
     // Ждёт пока какой-нибудь интент придёт (для второго и остальных запусков)
