@@ -16,6 +16,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,7 +50,7 @@ public class NotesFragment extends Fragment {
     public static NotesFragment createFragment(NotesSource notes) {
         NotesFragment fragment = new NotesFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_NOTES, notes);
+        args.putSerializable(ARG_NOTES, new SerializableNotes(notes.getAllNotes()));
         fragment.setArguments(args);
         return fragment;
     }
@@ -63,7 +67,7 @@ public class NotesFragment extends Fragment {
         super.onStart();
 
         if (!isInitialized) {
-            final NotesSource notes = (NotesSource) getArguments().getSerializable(ARG_NOTES);
+            final SerializableNotes notes = (SerializableNotes) getArguments().getSerializable(ARG_NOTES);
 
             recyclerView = getView().findViewById(R.id.recyclerView);
             recyclerView.setHasFixedSize(true);
@@ -75,7 +79,7 @@ public class NotesFragment extends Fragment {
             itemDecoration.setDrawable(getResources().getDrawable(R.drawable.separator, null));
             recyclerView.addItemDecoration(itemDecoration);
 
-            myAdapter = new MyAdapter(notes, this);
+            myAdapter = new MyAdapter(notes.getNotes(), this);
 
             recyclerView.setAdapter(myAdapter);
         }
@@ -109,8 +113,18 @@ public class NotesFragment extends Fragment {
         return false;
     }
 
+    public void showProgressBar(boolean isShowing){
+        ProgressBar progressBar = getView().findViewById(R.id.progressBar);
+
+        if (isShowing){
+            progressBar.setVisibility(View.VISIBLE);
+        } else {
+            progressBar.setVisibility(View.INVISIBLE);
+        }
+    }
+
     public void changeNotes(NotesSource notes) {
-        myAdapter.setNotes(notes);
+        myAdapter.setNotes(notes.getAllNotes());
         myAdapter.notifyDataSetChanged();
     }
 }

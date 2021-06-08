@@ -1,10 +1,13 @@
 package pro.fateeva.notes;
 
+import androidx.core.util.Consumer;
+
 import java.io.Serializable;
+import java.util.List;
 
 public interface NotesSource extends Serializable {
 
-    NotesSource init(NoteSourceResponse noteSourceResponse);
+    void downloadNotesFromServer(Consumer<NotesSource> onDownloaded);
 
     int size();
 
@@ -16,4 +19,5 @@ public interface NotesSource extends Serializable {
 
     Note getNote(int position);
 
+    List<Note> getAllNotes();
 }

@@ -1,5 +1,7 @@
 package pro.fateeva.notes;
 
+import androidx.core.util.Consumer;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,8 +28,8 @@ public class NotesMemorySourceImpl implements NotesSource{
     }
 
     @Override
-    public NotesSource init(NoteSourceResponse noteSourceResponse) {
-        return null;
+    public void downloadNotesFromServer(Consumer<NotesSource> onDownloaded) {
+
     }
 
     @Override
@@ -51,6 +53,11 @@ public class NotesMemorySourceImpl implements NotesSource{
     @Override
     public Note getNote(int position) {
         return notes.get(position);
+    }
+
+    @Override
+    public List<Note> getAllNotes() {
+        return notes;
     }
 }
 

@@ -3,6 +3,7 @@ package pro.fateeva.notes;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.core.util.Consumer;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -15,11 +16,12 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class NotesFirebaseSourceImpl implements NotesSource {
+public class NotesFirebaseSourceImpl implements NotesSource{
 
     public static final String NOTE_COLLECTION = "notes";
     public static final String TAG = "[NotesSourceFirebaseImpl]";
@@ -31,38 +33,33 @@ public class NotesFirebaseSourceImpl implements NotesSource {
     final private List<Note> noteData = new ArrayList<>();
 
     @Override
-    public NotesSource init(NoteSourceResponse noteSourceResponse) {
+    public void downloadNotesFromServer(final Consumer<NotesSource> onDownloaded) {
         collection.orderBy(NoteDataMapping.Fields.DATE, Query.Direction.DESCENDING)
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    noteData.clear();
+                .get()
+                .addOnCompleteListener((task) -> {
+                    if (task.isSuccessful()) {
+                        noteData.clear();
 
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Map<String, Object> doc = document.getData();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Map<String, Object> doc = document.getData();
 
-                        Note note = NoteDataMapping.toNote(document.getId(), doc);
+                            Note note = NoteDataMapping.toNote(document.getId(), doc);
 
-                        noteData.add(note);
+                            noteData.add(note);
+                        }
+                        onDownloaded.accept(this);
                     }
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
+        })
+         .addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.e(TAG, "onFailure", e);
             }
         });
-
-        return this;
     }
 
     @Override
     public int size() {
-        if (noteData == null) {
-            return 0;
-        }
         return noteData.size();
     }
 
@@ -90,5 +87,10 @@ public class NotesFirebaseSourceImpl implements NotesSource {
     @Override
     public Note getNote(int position) {
         return noteData.get(position);
+    }
+
+    @Override
+    public List<Note> getAllNotes() {
+        return noteData;
     }
 }

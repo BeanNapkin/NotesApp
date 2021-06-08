@@ -26,7 +26,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private NotesSource notes = new NotesMemorySourceImpl();
+    private NotesSource notes = new NotesFirebaseSourceImpl();
 
     private Note selectedNote = null;
     private final static String CURRENT_NOTE = "note_item";
@@ -71,12 +71,14 @@ public class MainActivity extends AppCompatActivity {
         }
         // Марш
         fragmentTransaction.commit();
+
     }
 
     // Для первого запуска активити
     @Override
     protected void onStart() {
         super.onStart();
+        notesFragment.showProgressBar(true);
         initView(selectedNote);
     }
 
@@ -122,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
         if ("".equals(noteToUpdate.getId())) {
             noteToUpdate.setDate(new Date());
             notes.addNote(noteToUpdate);
+
             notesFragment.recyclerView.scrollToPosition(notes.size() - 1);
         } else {
             for (int i = 0; i < notes.size(); i++) {
