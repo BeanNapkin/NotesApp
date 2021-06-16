@@ -80,6 +80,7 @@ public class NotesFirebaseSourceImpl implements NotesSource {
     @Override
     public void updateNote(int position, Note note) {
         collection.document(note.getId()).set(NoteDataMapping.toDocumnet(note));
+        noteData.set(position, note);
     }
 
     @Override
