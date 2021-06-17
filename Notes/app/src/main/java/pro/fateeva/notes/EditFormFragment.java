@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import android.view.Menu;
@@ -99,7 +100,7 @@ public class EditFormFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    private void clickOnSaveButton() {
+    public void clickOnSaveButton() {
         Note note = (Note) getArguments().getSerializable(ARG_NOTE);
         note.setHeader(header.getText().toString());
         note.setDescription(description.getText().toString());

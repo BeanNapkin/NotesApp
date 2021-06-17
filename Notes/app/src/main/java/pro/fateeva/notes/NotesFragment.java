@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -107,9 +108,7 @@ public class NotesFragment extends Fragment {
                 getContext().startActivity(intent);
                 return true;
             case R.id.action_delete:
-                intent = new Intent(getContext(), MainActivity.class);
-                intent.putExtra("NOTE_TO_DELETE", contextNote);
-                getContext().startActivity(intent);
+                createDeleteAlertDialog(contextNote);
                 return true;
         }
         return false;
@@ -136,6 +135,23 @@ public class NotesFragment extends Fragment {
     public void changeNotes(NotesSource notes) {
         myAdapter.setNotes(notes.getAllNotes());
         myAdapter.notifyDataSetChanged();
+    }
+
+    private void createDeleteAlertDialog(Note contextNote) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+
+        builder.setTitle("Удаление заметки!")
+                .setMessage("Удалить заметку?")
+                .setCancelable(true)
+                .setPositiveButton("ок", ((dialog, which) -> {
+                    Intent intent = new Intent(getContext(), MainActivity.class);
+                    intent.putExtra("NOTE_TO_DELETE", contextNote);
+                    getContext().startActivity(intent);
+                }))
+                .setNegativeButton("Отмена", (dialog, which) -> {
+                    dialog.dismiss();
+                })
+                .show();
     }
 }
 

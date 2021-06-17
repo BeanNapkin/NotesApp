@@ -22,7 +22,6 @@ public class NoteActivity extends AppCompatActivity {
     FloatingActionButton fab;
     private boolean isUpdateNote = false;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,24 +58,22 @@ public class NoteActivity extends AppCompatActivity {
 
         if (isUpdateNote) {
             openEditForm();
-        } else {
-            if (isCreatingNew) {
-                createNewNote();
-            } else {
-                NoteFragment noteFragment = NoteFragment.createFragment(note);
-
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.main, noteFragment);
-                fragmentTransaction.commit();
-
-                fab.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        openEditForm();
-                    }
-                });
-            }
+        } else if (isCreatingNew) {
+            createNewNote();
         }
+
+        NoteFragment noteFragment = NoteFragment.createFragment(note);
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.main, noteFragment);
+        fragmentTransaction.commit();
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openEditForm();
+            }
+        });
+
     }
 
     private Toolbar initToolbar() {
@@ -87,13 +84,8 @@ public class NoteActivity extends AppCompatActivity {
     }
 
     private void openEditForm() {
-        EditFormFragment editNoteFragment = EditFormFragment.createFragment(note);
-
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.main, editNoteFragment);
-        fragmentTransaction.commit();
-        fab.hide();
-
+        EditFormDialogFragment editFormDialogFragment = EditFormDialogFragment.createDialogFragment(note);
+        editFormDialogFragment.show(getSupportFragmentManager(), null);
     }
 
     private void createNewNote() {

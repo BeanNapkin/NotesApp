@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class NotesFirebaseSourceImpl implements NotesSource{
+public class NotesFirebaseSourceImpl implements NotesSource {
 
     public static final String NOTE_COLLECTION = "notes";
     public static final String TAG = "[NotesSourceFirebaseImpl]";
@@ -49,13 +49,13 @@ public class NotesFirebaseSourceImpl implements NotesSource{
                         }
                         onDownloaded.accept(this);
                     }
-        })
-         .addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.e(TAG, "onFailure", e);
-            }
-        });
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "onFailure", e);
+                    }
+                });
     }
 
     @Override
@@ -71,12 +71,16 @@ public class NotesFirebaseSourceImpl implements NotesSource{
             public void onSuccess(DocumentReference documentReference) {
                 note.setId(documentReference.getId());
             }
-        });
+        })
+                .addOnFailureListener(e -> Log.e(null, "error saving note", e))
+        ;
+
     }
 
     @Override
     public void updateNote(int position, Note note) {
         collection.document(note.getId()).set(NoteDataMapping.toDocumnet(note));
+        noteData.set(position, note);
     }
 
     @Override

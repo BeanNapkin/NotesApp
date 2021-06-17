@@ -2,6 +2,7 @@ package pro.fateeva.notes;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         initView(selectedNote);
     }
 
-    private void downloadNotes(){
+    private void downloadNotes() {
         notes.downloadNotesFromServer((notesSource -> {
             notesFragment.changeNotes(notesSource);
             notesFragment.showProgressBar(false);
@@ -105,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (noteToDelete != null) {
             deleteNote(noteToDelete);
         } else if (noteToUpdateContext != null) {
-            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
                 intent = new Intent(this, NoteActivity.class);
                 intent.putExtra("NOTE_TO_UPDATE_CONTEXT", noteToUpdateContext);
                 startActivity(intent);
